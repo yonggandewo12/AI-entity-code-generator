@@ -2,175 +2,175 @@
 
 [English](./README.md) | [中文](./README-zh.md)
 
-## Overview
+## 概述
 
-AI-Entity-Code-Generator is a Spring Boot-based application that leverages Large Language Models (LLM) to automatically generate entity code in various programming languages from uploaded schema files.
+AI-Entity-Code-Generator 是一个基于 Spring Boot 的应用程序，利用大语言模型（LLM）从上传的 schema 文件自动生成各种编程语言的实体代码。
 
-### Use Cases
+### 使用场景
 
-- **Schema to Entity Conversion**: Upload JSON/YAML database schema files and generate corresponding entity classes
-- **Cross-language Migration**: Convert entity definitions from one language to another (e.g., Java POJO to Go struct)
-- **Rapid Prototyping**: Quickly generate boilerplate entity code for new projects
-- **Learning Tool**: Understand entity structures across different languages
+- **Schema 转 Entity**：上传 JSON/YAML 数据库 schema 文件，生成对应的实体类
+- **跨语言迁移**：将实体定义从一种语言转换为另一种语言（例如 Java POJO 转 Go struct）
+- **快速原型**：为新项目快速生成实体代码模板
+- **学习工具**：了解不同语言的实体结构
 
-### Key Features
+### 核心功能
 
-- Upload text-based schema files (JSON, YAML, etc.)
-- Support for multiple target languages (Java, Go)
-- OpenAI-compatible API integration
-- RESTful API with file download support
-- Simple web UI for easy interaction
-- Assembly packaging for easy deployment
+- 支持上传文本类型的 schema 文件（JSON、YAML 等）
+- 支持多种目标语言（Java、Go）
+- OpenAI 兼容 API 集成
+- 支持文件下载的 RESTful API
+- 简洁的 Web UI 界面
+- Assembly 打包便于部署
 
-## Technical Details
+## 技术详情
 
-### Architecture
+### 架构设计
 
 ```
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│   Frontend  │────▶│   Controller     │────▶│    Service      │
-│  (Static    │     │  (Spring MVC)    │     │ (Business       │
-│   HTML/JS)  │     │                  │     │  Logic)         │
+│   前端      │────▶│   控制器          │────▶│    服务层        │
+│  (静态      │     │  (Spring MVC)    │     │ (业务            │
+│   HTML/JS)  │     │                  │     │  逻辑)          │
 └─────────────┘     └──────────────────┘     └────────┬────────┘
                                                      │
                                                      ▼
                                             ┌─────────────────┐
-                                            │  LLM Client     │
-                                            │ (OpenAI         │
-                                            │  Compatible)    │
+                                            │  LLM 客户端     │
+                                            │ (OpenAI        │
+                                            │  兼容)         │
                                             └────────┬────────┘
                                                      │
                                                      ▼
                                             ┌─────────────────┐
-                                            │ External LLM    │
-                                            │ API             │
+                                            │ 外部 LLM        │
+                                            │ API            │
                                             └─────────────────┘
 ```
 
-### Project Structure
+### 项目结构
 
 ```
 ai-entity-code-generator/
 ├── src/
 │   ├── main/
 │   │   ├── java/org/example/demotest/
-│   │   │   ├── config/           # Configuration classes
+│   │   │   ├── config/           # 配置类
 │   │   │   │   ├── LlmHttpClientConfig.java
 │   │   │   │   └── LlmProperties.java
-│   │   │   ├── controller/       # REST controllers
+│   │   │   ├── controller/       # REST 控制器
 │   │   │   │   └── EntityGenerationController.java
-│   │   │   ├── dto/             # Data transfer objects
+│   │   │   ├── dto/             # 数据传输对象
 │   │   │   │   ├── ErrorResponse.java
 │   │   │   │   └── GeneratedCodeFile.java
-│   │   │   ├── exception/       # Exception handling
+│   │   │   ├── exception/       # 异常处理
 │   │   │   │   ├── AppException.java
 │   │   │   │   ├── BadRequestException.java
 │   │   │   │   ├── ConfigurationException.java
 │   │   │   │   ├── GlobalExceptionHandler.java
 │   │   │   │   └── UpstreamServiceException.java
-│   │   │   ├── llm/             # LLM integration
+│   │   │   ├── llm/             # LLM 集成
 │   │   │   │   ├── OpenAiCompatibleLlmClient.java
 │   │   │   │   └── dto/
 │   │   │   │       ├── LlmChatMessage.java
 │   │   │   │       ├── LlmChatRequest.java
 │   │   │   │       └── LlmChatResponse.java
-│   │   │   ├── service/          # Business services
+│   │   │   ├── service/          # 业务服务
 │   │   │   │   └── EntityCodeGenerationService.java
 │   │   │   └── DemoTestApplication.java
 │   │   └── resources/
-│   │       ├── application.yml   # Application configuration
-│   │       └── static/           # Static web resources
+│   │       ├── application.yml   # 应用配置
+│   │       └── static/           # 静态 Web 资源
 │   │           └── index.html   # Web UI
 │   └── test/
-│       └── java/                 # Unit tests
+│       └── java/                 # 单元测试
 ├── pom.xml
 └── src/assembly/
-    └── assembly.xml              # Assembly packaging descriptor
+    └── assembly.xml              # Assembly 打包描述符
 ```
 
-### Technology Stack
+### 技术栈
 
-| Component | Technology |
+| 组件 | 技术 |
 |-----------|------------|
-| Framework | Spring Boot 2.7.18 |
-| Language | Java 8 |
-| Build Tool | Apache Maven 3.9.x |
-| HTTP Client | Spring RestTemplate |
-| Validation | Spring Boot Validation |
-| Testing | JUnit 5, Spring Boot Test, Mockito |
-| Packaging | Maven Assembly Plugin |
+| 框架 | Spring Boot 2.7.18 |
+| 语言 | Java 8 |
+| 构建工具 | Apache Maven 3.9.x |
+| HTTP 客户端 | Spring RestTemplate |
+| 验证 | Spring Boot Validation |
+| 测试 | JUnit 5, Spring Boot Test, Mockito |
+| 打包 | Maven Assembly Plugin |
 
-## API Specification
+## API 规范
 
-### Entity Code Generation
+### 实体代码生成
 
 #### POST /api/entities/generate
 
-Generate entity code from uploaded file.
+从上传的文件生成实体代码。
 
 **Content-Type:** `multipart/form-data`
 
-**Request Parameters:**
+**请求参数：**
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| file | MultipartFile | Yes | Text file containing entity/schema definition |
-| language | String | Yes | Target language for code generation (java/go) |
+| 参数 | 类型 | 必填 | 说明 |
+|-----------|------|------|-------------|
+| file | MultipartFile | 是 | 包含实体/schema 定义的文本文件 |
+| language | String | 是 | 代码生成的目标语言（java/go） |
 
-**Response:**
+**响应：**
 
-- **Success (200 OK):**
+- **成功 (200 OK):**
   - Content-Type: `text/plain`
-  - Content-Disposition: `attachment; filename=GeneratedEntity.java` or `generated_entity.go`
-  - Body: Generated entity code as plain text
+  - Content-Disposition: `attachment; filename=GeneratedEntity.java` 或 `generated_entity.go`
+  - Body: 生成的实体代码（纯文本）
 
-- **Error (400 Bad Request):**
+- **错误 (400 Bad Request):**
   ```json
   {
     "error": "Bad Request",
-    "message": "Uploaded file is empty",
+    "message": "上传文件为空",
     "path": "/api/entities/generate",
     "timestamp": 1700000000000
   }
   ```
 
-- **Error (500 Internal Server Error):**
+- **错误 (500 Internal Server Error):**
   ```json
   {
     "error": "Internal Server Error",
-    "message": "Failed to call LLM service: ...",
+    "message": "调用LLM服务失败: ...",
     "path": "/api/entities/generate",
     "timestamp": 1700000000000
   }
   ```
 
-### Error Response Schema
+### 错误响应结构
 
-| Field | Type | Description |
+| 字段 | 类型 | 说明 |
 |-------|------|-------------|
-| error | String | HTTP status phrase |
-| message | String | Human-readable error message |
-| path | String | Request path where error occurred |
-| timestamp | Long | Unix timestamp in milliseconds |
+| error | String | HTTP 状态描述 |
+| message | String | 人类可读的错误消息 |
+| path | String | 发生错误的请求路径 |
+| timestamp | Long | Unix 时间戳（毫秒） |
 
-## Usage Guide
+## 使用指南
 
-### Quick Start
+### 快速开始
 
-1. **Configure LLM API Key:**
+1. **配置 LLM API Key：**
    ```bash
    export LLM_API_KEY=your_api_key_here
    ```
 
-2. **Run the application:**
+2. **运行应用：**
    ```bash
    mvn spring-boot:run
    ```
 
-3. **Access the web UI:**
-   Open browser to: `http://localhost:8080`
+3. **访问 Web UI：**
+   浏览器打开：`http://localhost:8080`
 
-4. **Or use the API directly:**
+4. **或直接使用 API：**
    ```bash
    curl -X POST "http://localhost:8080/api/entities/generate" \
      -F "file=@schema.json" \
@@ -178,17 +178,17 @@ Generate entity code from uploaded file.
      -o GeneratedEntity.java
    ```
 
-### Using the Web UI
+### 使用 Web UI
 
-1. Open `http://localhost:8080` in your browser
-2. Click "Choose File" to select a text file containing entity schema
-3. Select target language from dropdown (Java/Go)
-4. Click "Generate" button
-5. The generated code will be downloaded automatically
+1. 在浏览器中打开 `http://localhost:8080`
+2. 点击"选择文件"按钮，选择包含实体 schema 的文本文件
+3. 从下拉菜单选择目标语言（Java/Go）
+4. 点击"生成"按钮
+5. 生成的代码将自动下载
 
-### Example Input
+### 示例输入
 
-**Input file (schema.json):**
+**输入文件 (schema.json):**
 ```json
 {
   "entities": [
@@ -205,7 +205,7 @@ Generate entity code from uploaded file.
 }
 ```
 
-**Generated Java Output:**
+**生成的 Java 输出：**
 ```java
 public class User {
     private Long id;
@@ -220,7 +220,7 @@ public class User {
 }
 ```
 
-**Generated Go Output:**
+**生成的 Go 输出：**
 ```go
 package main
 
@@ -232,11 +232,11 @@ type User struct {
 }
 ```
 
-## Configuration
+## 配置
 
-### Application Properties
+### 应用属性
 
-Configure the application via `src/main/resources/application.yml`:
+通过 `src/main/resources/application.yml` 配置应用：
 
 ```yaml
 spring:
@@ -256,55 +256,55 @@ llm:
   max-input-chars: 50000
 ```
 
-### Configuration Options
+### 配置选项
 
-| Property | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 |----------|------|---------|-------------|
-| `llm.base-url` | String | `https://api.openai.com` | LLM API base URL |
-| `llm.api-key` | String | - | LLM API key (set via `LLM_API_KEY` env var) |
-| `llm.model` | String | `gpt-4o-mini` | LLM model name |
-| `llm.timeout-seconds` | Integer | `30` | HTTP request timeout in seconds |
-| `llm.max-input-chars` | Integer | `50000` | Maximum input characters |
-| `spring.servlet.multipart.max-file-size` | String | `256KB` | Maximum upload file size |
-| `spring.servlet.multipart.max-request-size` | String | `256KB` | Maximum request size |
+| `llm.base-url` | String | `https://api.openai.com` | LLM API 基础 URL |
+| `llm.api-key` | String | - | LLM API 密钥（通过 `LLM_API_KEY` 环境变量设置）|
+| `llm.model` | String | `gpt-4o-mini` | LLM 模型名称 |
+| `llm.timeout-seconds` | Integer | `30` | HTTP 请求超时时间（秒）|
+| `llm.max-input-chars` | Integer | `50000` | 最大输入字符数 |
+| `spring.servlet.multipart.max-file-size` | String | `256KB` | 最大上传文件大小 |
+| `spring.servlet.multipart.max-request-size` | String | `256KB` | 最大请求大小 |
 
-### Supported LLM Providers
+### 支持的 LLM 提供商
 
-The application uses OpenAI-compatible API. Supported providers include:
+应用使用 OpenAI 兼容 API，支持以下提供商：
 
-- OpenAI GPT models
+- OpenAI GPT 模型
 - Azure OpenAI Service
-- Local LLM deployments (Ollama, LM Studio, etc.)
-- Any OpenAI-compatible API endpoint
+- 本地 LLM 部署（Ollama、LM Studio 等）
+- 任何 OpenAI 兼容 API 端点
 
-### Environment Variables
+### 环境变量
 
-| Variable | Required | Description |
+| 变量 | 必填 | 说明 |
 |----------|----------|-------------|
-| `LLM_API_KEY` | Yes | API key for LLM service |
+| `LLM_API_KEY` | 是 | LLM 服务的 API 密钥 |
 
-## Deployment
+## 部署
 
-### Build
+### 构建
 
 ```bash
 mvn clean package -DskipTests
 ```
 
-### Assembly Distribution
+### Assembly 分发包
 
-The assembly plugin creates a distribution zip:
+Assembly 插件会创建分发 zip 包：
 
 ```bash
-# Extract the distribution
+# 解压分发包
 unzip target/ai-entity-code-generator-1.0-SNAPSHOT-dist.zip -d deployment/
 
-# Run the application
+# 运行应用
 cd deployment/ai-entity-code-generator-1.0-SNAPSHOT
 java -jar ai-entity-code-generator-1.0-SNAPSHOT.jar
 ```
 
-### Docker Deployment (Future)
+### Docker 部署（未来计划）
 
 ```dockerfile
 FROM openjdk:8-jre-slim
@@ -315,46 +315,46 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-## Development
+## 开发
 
-### Prerequisites
+### 前置条件
 
-- JDK 8 or higher
+- JDK 8 或更高版本
 - Apache Maven 3.6+
-- Internet access for Maven dependencies
+- 网络连接（Maven 依赖）
 
-### Run Tests
+### 运行测试
 
 ```bash
 mvn test
 ```
 
-### Code Style
+### 代码规范
 
-- All Java files must include `@author Liang.Xu` in Javadoc
-- All methods must have proper Javadoc comments
-- Follow Spring Boot best practices
+- 所有 Java 文件必须在 Javadoc 中包含 `@author Liang.Xu`
+- 所有方法必须有规范的 Javadoc 注释
+- 遵循 Spring Boot 最佳实践
 
-## Changelog
+## 变更日志
 
 ### v1.0.0 (2024-01-01)
 
-- **Added**: Initial project setup with Spring Boot 2.7.18
-- **Added**: REST API for entity code generation
-- **Added**: Support for Java and Go target languages
-- **Added**: Web UI for file upload and download
-- **Added**: OpenAI-compatible LLM client integration
-- **Added**: Assembly packaging for distribution
-- **Added**: Comprehensive unit tests
+- **新增**: 初始化项目，Spring Boot 2.7.18
+- **新增**: REST API 实体代码生成功能
+- **新增**: 支持 Java 和 Go 目标语言
+- **新增**: Web UI 文件上传下载界面
+- **新增**: OpenAI 兼容 LLM 客户端集成
+- **新增**: Assembly 打包分发
+- **新增**: 完整的单元测试
 
-## License
+## 许可证
 
 MIT License
 
-## Author
+## 作者
 
 Liang.Xu
 
-## Contributing
+## 贡献
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+欢迎贡献！请随时提交 Pull Request。

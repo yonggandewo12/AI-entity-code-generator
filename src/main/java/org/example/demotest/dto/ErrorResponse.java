@@ -1,7 +1,7 @@
 package org.example.demotest.dto;
 
 /**
- * Standard JSON error response payload.
+ * 标准JSON错误响应载荷。
  *
  * @author Liang.Xu
  */

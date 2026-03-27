@@ -1,7 +1,7 @@
 package org.example.demotest.llm.dto;
 
 /**
- * Chat message for OpenAI-compatible request/response payloads.
+ * OpenAI兼容请求/响应载荷的聊天消息。
  *
  * @author Liang.Xu
  */

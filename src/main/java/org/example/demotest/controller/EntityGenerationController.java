@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 import java.nio.charset.StandardCharsets;
 
 /**
- * REST endpoint for generating entity code files.
+ * 用于生成实体代码文件的REST端点。
  *
  * @author Liang.Xu
  */

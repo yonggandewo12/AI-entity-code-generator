@@ -3,7 +3,7 @@ package org.example.demotest.llm.dto;
 import java.util.List;
 
 /**
- * Response payload for OpenAI-compatible chat completion API.
+ * OpenAI兼容聊天补全API的响应载荷。
  *
  * @author Liang.Xu
  */

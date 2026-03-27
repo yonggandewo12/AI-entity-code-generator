@@ -3,7 +3,7 @@ package org.example.demotest.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Configuration values for the OpenAI-compatible LLM API.
+ * OpenAI兼容LLM API的配置属性。
  *
  * @author Liang.Xu
  */

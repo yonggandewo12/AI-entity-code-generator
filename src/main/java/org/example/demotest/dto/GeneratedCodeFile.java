@@ -1,7 +1,7 @@
 package org.example.demotest.dto;
 
 /**
- * Generated source file content and download name.
+ * 生成的源代码文件内容和下载文件名。
  *
  * @author Liang.Xu
  */
