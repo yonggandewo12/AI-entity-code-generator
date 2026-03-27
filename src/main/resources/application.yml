@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ai-entity-code-generator
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 256KB
+      max-request-size: 256KB
+
+llm:
+  base-url: https://api.openai.com
+  api-key: ""
+  model: gpt-4o-mini
+  timeout-seconds: 30
+  max-input-chars: 50000
