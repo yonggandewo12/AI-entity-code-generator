@@ -4,6 +4,7 @@ import org.example.demotest.config.LlmProperties;
 import org.example.demotest.dto.GeneratedCodeFile;
 import org.example.demotest.exception.BadRequestException;
 import org.example.demotest.llm.OpenAiCompatibleLlmClient;
+import org.example.demotest.utils.FileParserUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 /**
- * Core business logic for generating entity code from uploaded text.
+ * 实体代码生成核心业务逻辑，支持纯文本、Excel和CSV文件。
  *
  * @author Liang.Xu
  */
@@ -34,14 +35,14 @@ public class EntityCodeGenerationService {
     }
 
     /**
-     * Generates entity code file from uploaded file and target language.
-     * Performs validation of input, reads file content, calls LLM to generate code,
-     * and returns the generated file with appropriate filename.
+     * 根据上传的文件和目标语言生成实体代码文件。
+     * 执行输入验证、文件内容读取、LLM调用生成代码，并返回生成的文件和合适的文件名。
+     * 支持纯文本、Excel(.xls/.xlsx)和CSV文件格式。
      *
-     * @param file Uploaded multipart file containing entity schema/text
-     * @param language Target language for code generation (java/go)
-     * @return GeneratedCodeFile containing filename and code content
-     * @throws BadRequestException If file is null, empty, blank, binary, oversized, or language is unsupported
+     * @param file 上传的多部分文件，包含实体schema/文本
+     * @param language 代码生成的目标语言（java/go）
+     * @return 包含文件名和代码内容的GeneratedCodeFile
+     * @throws BadRequestException 如果文件为空、空白、二进制、过大，或语言不支持，或文件解析失败
      */
     public GeneratedCodeFile generateEntityFile(MultipartFile file, String language) {
         if (file == null) {
@@ -52,10 +53,24 @@ public class EntityCodeGenerationService {
         }
         String normalizedLanguage = normalizeLanguage(language);
 
+        String fileName = file.getOriginalFilename();
+        String lowerFileName = fileName == null ? "" : fileName.toLowerCase(Locale.ROOT);
         byte[] bytes = readBytes(file);
-        validateTextLike(bytes);
 
-        String content = new String(bytes, StandardCharsets.UTF_8);
+        String content;
+        try {
+            if (lowerFileName.endsWith(".xls") || lowerFileName.endsWith(".xlsx")) {
+                content = FileParserUtils.parseExcel(file);
+            } else if (lowerFileName.endsWith(".csv")) {
+                validateTextLike(bytes);
+                content = FileParserUtils.parseCsv(file);
+            } else {
+                validateTextLike(bytes);
+                content = new String(bytes, StandardCharsets.UTF_8);
+            }
+        } catch (IOException e) {
+            throw new BadRequestException("文件解析失败：" + e.getMessage());
+        }
         if (!StringUtils.hasText(content)) {
             throw new BadRequestException("Uploaded file content is blank");
         }
