@@ -8,14 +8,14 @@ AI-Entity-Code-Generator 是一个基于 Spring Boot 的应用程序，利用大
 
 ### 使用场景
 
-- **Schema 转 Entity**：上传 JSON/YAML 数据库 schema 文件，生成对应的实体类
+- **Schema 转 Entity**：上传 JSON/YAML/Excel/CSV 格式的数据库 schema 文件，生成对应的实体类
 - **跨语言迁移**：将实体定义从一种语言转换为另一种语言（例如 Java POJO 转 Go struct）
 - **快速原型**：为新项目快速生成实体代码模板
 - **学习工具**：了解不同语言的实体结构
 
 ### 核心功能
 
-- 支持上传文本类型的 schema 文件（JSON、YAML 等）
+- 支持上传多种类型文件：纯文本（JSON、YAML 等）、Excel（.xls、.xlsx）、CSV
 - 支持多种目标语言（Java、Go）
 - OpenAI 兼容 API 集成
 - 支持文件下载的 RESTful API
